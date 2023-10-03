@@ -9,6 +9,7 @@ from textattack.metrics.attack_metrics import (
     AttackQueries,
     AttackSuccessRate,
     WordsPerturbed,
+    AdvConfidence
 )
 from textattack.metrics.quality_metrics import Perplexity, USEMetric
 
@@ -99,6 +100,7 @@ class AttackLogManager:
         attack_success_stats = AttackSuccessRate().calculate(self.results)
         words_perturbed_stats = WordsPerturbed().calculate(self.results)
         attack_query_stats = AttackQueries().calculate(self.results)
+        adv_confidence = AdvConfidence().calculate(self.results)
 
         # @TODO generate this table based on user input - each column in specific class
         # Example to demonstrate:
@@ -134,6 +136,10 @@ class AttackLogManager:
 
         summary_table_rows.append(
             ["Avg num queries:", attack_query_stats["avg_num_queries"]]
+        )
+
+        summary_table_rows.append(
+            ["Adv confidence:", adv_confidence["attack_conf"]]
         )
 
         for metric_name, metric in self.metrics.items():
