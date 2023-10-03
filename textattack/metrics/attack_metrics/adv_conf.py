@@ -30,7 +30,8 @@ class AdvConfidence(Metric):
             elif isinstance(results, SkippedAttackResult):
                 continue
             else:
-                print('Perturbed output: ', results.perturbed_result.output)
+                print('Perturbed score: ', results.perturbed_result.score)
+                print('Perturbed goal status:', results.perturbed_result.goal_status)
                 self.attack_conf.append(results.perturbed_result.output)
         self.all_metrics["attack_conf"] = self.mean_attack_conf()
         return self.all_metrics
