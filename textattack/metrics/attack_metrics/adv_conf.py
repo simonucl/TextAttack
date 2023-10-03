@@ -30,9 +30,7 @@ class AdvConfidence(Metric):
             elif isinstance(results, SkippedAttackResult):
                 continue
             else:
-                print('Perturbed score: ', results.perturbed_result.score)
-                print('Perturbed goal status:', results.perturbed_result.goal_status)
-                self.attack_conf.append(results.perturbed_result.output)
+                self.attack_conf.append(results.perturbed_result.score)
         self.all_metrics["attack_conf"] = self.mean_attack_conf()
         return self.all_metrics
         
@@ -40,4 +38,3 @@ class AdvConfidence(Metric):
         attack_conf = np.mean(self.attack_conf)
         attack_conf = round(attack_conf, 2)
         return attack_conf
-
