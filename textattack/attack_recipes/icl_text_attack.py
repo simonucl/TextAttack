@@ -11,6 +11,7 @@ from textattack import Attack
 from textattack.constraints.pre_transformation import (
     RepeatModification,
     StopwordModification,
+    InstructionModification
 )
 from textattack.constraints.overlap.max_words_perturbed import MaxWordsPerturbed
 
@@ -77,7 +78,7 @@ class ICLTextAttack(AttackRecipe):
             ]
         )
 
-        constraints = [RepeatModification(), StopwordModification()]
+        constraints = [RepeatModification(), StopwordModification(), InstructionModification()]
         # In our experiment, we first use the Universal Sentence
         # Encoder [7], a model trained on a number of natural language
         # prediction tasks that require modeling the meaning of word
