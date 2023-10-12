@@ -78,7 +78,7 @@ class ICLTextAttack(AttackRecipe):
             ]
         )
 
-        constraints = [RepeatModification(), StopwordModification(), InstructionModification()]
+        constraints = [RepeatModification(), StopwordModification(), InstructionModification(), MaxWordsPerturbed(max_percent=0.1)]
         # In our experiment, we first use the Universal Sentence
         # Encoder [7], a model trained on a number of natural language
         # prediction tasks that require modeling the meaning of word
@@ -88,7 +88,13 @@ class ICLTextAttack(AttackRecipe):
         # ... "Furthermore, the semantic similarity threshold \eps is set
         # as 0.8 to guarantee a good trade-off between quality and
         # strength of the generated adversarial text."
-        constraints.append(UniversalSentenceEncoder(threshold=0.8))
+        constraints.append(UniversalSentenceEncoder(
+            threshold=0.8,
+            metric="angular",
+            compare_against_original=False,
+            window_size=15,
+            skip_text_shorter_than_window=True,
+            ))
         #
         # Goal is untargeted classification
         #

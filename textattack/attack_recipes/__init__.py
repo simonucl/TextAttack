@@ -43,3 +43,4 @@ from .french_recipe import FrenchRecipe
 from .spanish_recipe import SpanishRecipe
 from .chinese_recipe import ChineseRecipe
 from .icl_text_attack import ICLTextAttack
+from .icl_text_attack_textfooler import ICLTextAttackWord
