@@ -28,7 +28,7 @@ class InsturctionSwapOrder(Transformation):
                 new_text += inputs[2 * order[i] + 1] + '\n'
             # Add the last line
             new_text += inputs[-1]
-            transformed_texts.append(new_text)
+            transformed_texts.append(current_text.generate_new_attacked_text(new_text))
 
         return transformed_texts
 

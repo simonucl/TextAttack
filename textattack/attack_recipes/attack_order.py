@@ -17,7 +17,7 @@ from textattack.constraints.pre_transformation.instruction_attack import Instruc
 
 from textattack.constraints.semantics.sentence_encoders import UniversalSentenceEncoder
 from textattack.goal_functions import UntargetedClassification
-from textattack.search_methods import GreedyWordSwapWIR
+from textattack.search_methods import GreedyWordSwapWIR, GreedySearch
 from textattack.transformations import (
     CompositeTransformation,
     WordSwapLabel,
@@ -48,6 +48,6 @@ class SwapOrderAttack(AttackRecipe):
         #
         # Greedily swap words with "Word Importance Ranking".
         #
-        search_method = GreedyWordSwapWIR(wir_method="unk", unk_token="<unk>")
+        search_method = GreedySearch()
 
         return Attack(goal_function, constraints, transformation, search_method)

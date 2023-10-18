@@ -45,3 +45,4 @@ from .chinese_recipe import ChineseRecipe
 from .icl_text_attack import ICLTextAttack
 from .icl_text_attack_textfooler import ICLTextAttackWord
 from .swap_label_attack import SwapLabel2023
+from .attack_order import SwapOrderAttack
