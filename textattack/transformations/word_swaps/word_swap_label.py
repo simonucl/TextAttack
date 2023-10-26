@@ -30,7 +30,9 @@ class WordSwapLabel(WordSwap):
         super().__init__(**kwargs)
         self.label_map = {
             "sentiment": ["positive", "negative"],
-            "nli": ["entailment", "neutral", "contradiction"],
+            # "nli": ["entailment", "neutral", "contradiction"],
+            # "nli": ["true", "neither", "false"],
+            "nli": ["true", "false"],
             "topic": [
                 "World",
                 "Sports",
