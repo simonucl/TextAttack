@@ -16,7 +16,7 @@ class InstructionModification(PreTransformationConstraint):
     entailment.
     """
 
-    def __init__(self, columns_to_ignore=["inference", "Label_"]):
+    def __init__(self, columns_to_ignore=["sentence", "Label_"]):
         self.columns_to_ignore = columns_to_ignore
 
     def is_columns_to_ignore(self, column_name):

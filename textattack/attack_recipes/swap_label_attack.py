@@ -45,7 +45,7 @@ class SwapLabel2023(AttackRecipe):
             ]
         )
 
-        constraints = [RepeatModification(), MaxWordsPerturbed(max_percent=0.5), InstructionModification(['sentence', 'Example_'])]
+        constraints = [InstructionModification(['sentence', 'Example_', 'Premise', 'Hypothesis']), RepeatModification(), MaxWordsPerturbed(max_percent=1.0)]
         # Goal is untargeted classification
         #
         goal_function = UntargetedClassification(model_wrapper)
