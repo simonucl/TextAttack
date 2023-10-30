@@ -26,20 +26,25 @@ class WordSwapLabel(WordSwap):
     >>> augmenter.augment(s)
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, verbalizer, **kwargs):
         super().__init__(**kwargs)
-        self.label_map = {
-            "sentiment": ["positive", "negative"],
-            # "nli": ["entailment", "neutral", "contradiction"],
-            # "nli": ["true", "neither", "false"],
-            "nli": ["true", "false"],
-            "topic": [
-                "World",
-                "Sports",
-                "Business",
-                "Sci/Tech",
-            ]
-        }
+        # self.label_map = {
+        #     "sentiment": ["positive", "negative"],
+        #     "nli": ["entailment", "neutral", "contradiction"],
+        #     "topic": [
+        #         "World",
+        #         "Sports",
+        #         "Business",
+        #         "Sci/Tech",
+        #     ]
+        # }
+        if type(verbalizer) is dict:
+            label_map = []
+            for k, v in verbalizer.items():
+                label_map.append(v if type(v) is not list else v[0])
+        else:
+            label_map = verbalizer
+        self.label_map = label_map
 
     def _get_replacement_words(self, word):
         """Returns a list of possible 'candidate words' to replace a word in a
@@ -47,7 +52,10 @@ class WordSwapLabel(WordSwap):
 
         Based on the label_map
         """
-        for k, v in self.label_map.items():
+        # for k, v in self.label_map.items():
+        #     if word in v:
+        #         return list(set(v) - set([word]))
+        for v in self.label_map:
             if word in v:
                 return list(set(v) - set([word]))
         return []

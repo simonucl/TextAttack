@@ -570,6 +570,11 @@ class AttackedText:
         return len(self.words)
 
     @property
+    def text_dict(self) -> Dict[str, str]:
+        """Returns a dictionary of text inputs."""
+        return self._text_input
+    
+    @property
     def newly_swapped_words(self) -> List[str]:
         return [
             self.attack_attrs["prev_attacked_text"].words[i]
