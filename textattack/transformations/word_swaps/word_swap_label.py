@@ -55,9 +55,7 @@ class WordSwapLabel(WordSwap):
         # for k, v in self.label_map.items():
         #     if word in v:
         #         return list(set(v) - set([word]))
-        for v in self.label_map:
-            if word in v:
-                return list(set(v) - set([word]))
+        return list(set(self.label_map) - set([word]))
         return []
 
     def extra_repr_keys(self):

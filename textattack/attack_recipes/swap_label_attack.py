@@ -20,7 +20,8 @@ from textattack.goal_functions import UntargetedClassification
 from textattack.search_methods import GreedyWordSwapWIR, GreedySearch
 from textattack.transformations import (
     CompositeTransformation,
-    WordSwapLabel
+    WordSwapLabel,
+    WordSwapDuo
 )
 from textattack.constraints.overlap import UniformSwap
 
@@ -36,13 +37,14 @@ class SwapLabel2023(AttackRecipe):
     """
 
     @staticmethod
-    def build(model_wrapper, verbalizer):
+    def build(model_wrapper, verbalizer, fix_dist=False):
         #
         #  we propose five bug generation methods for TEXTBUGGER:
         #
+        WORDSWAP = WordSwapDuo if fix_dist else WordSwapLabel
         transformation = CompositeTransformation(
             [
-                WordSwapLabel(verbalizer=verbalizer)
+                WORDSWAP(verbalizer=verbalizer)
             ]
         )
 

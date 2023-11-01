@@ -17,7 +17,7 @@ class InstructionModification(PreTransformationConstraint):
     """
 
     def __init__(self, columns_to_ignore=["sentence", "Label_"]):
-        self.columns_to_ignore = columns_to_ignore
+        self.columns_to_ignore = [c.lower() for c in columns_to_ignore]
 
     def is_columns_to_ignore(self, column_name):
         for column in self.columns_to_ignore:
@@ -42,7 +42,7 @@ class InstructionModification(PreTransformationConstraint):
             current_text.column_labels, current_text.words_per_input
         ):
             num_words = len(words)
-            if not self.is_columns_to_ignore(column):
+            if not self.is_columns_to_ignore(column.lower()):
                 indices_to_modify |= set(range(idx, idx + num_words))
             idx += num_words
         return indices_to_modify

@@ -40,4 +40,4 @@ class UniformSwap(Constraint):
         return max(label_count.values()) - min(label_count.values()) <= self.threshold
     
     def extra_repr_keys(self):
-        return ["max_bleu_score"] + super().extra_repr_keys()
+        return ["threshold"] + super().extra_repr_keys()
