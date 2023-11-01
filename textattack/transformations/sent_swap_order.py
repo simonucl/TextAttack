@@ -13,22 +13,35 @@ class InsturctionSwapOrder(Transformation):
 
     def _get_transformations(self, current_text, indices_to_modify):
         transformed_texts = []
-        text = current_text.text
-        inputs = text.split('\n')
-        no_demonstration = (len(inputs) - 1) // 2
-        # Generate the permutation of the instructions
-        permutations = list(permutations(range(no_demonstration)))
+        text_dict = current_text.text_dict
+        modified_keys = current_text.attack_attrs['modified_keys']
 
-        # Iterate over the permutation
-        for order in permutations:
-            # Generate the new text
-            new_text = ''
-            for i in range(no_demonstration):
-                new_text += inputs[2 * order[i]] + '\n'
-                new_text += inputs[2 * order[i] + 1] + '\n'
-            # Add the last line
-            new_text += inputs[-1]
-            transformed_texts.append(current_text.generate_new_attacked_text(new_text))
+        # print(text_dict)
+        if 'Premise_0' in text_dict:
+            keys = ['Premise', 'Hypothesis']
+        elif 'Example_0' in text_dict:
+            keys = ['Example']
+
+        demon_len = (len(text_dict) - len(keys) ) // (len(keys) + 1)
+
+        keys.append('Label')
+        
+        for i in range(demon_len):
+            transformed_texts_idx = []
+            for j in range(i+1, demon_len):
+                if f"{keys[0]}_{i}" in modified_keys or f"{keys[0]}_{j}" in modified_keys:
+                    continue
+                else:
+                    key_iter = []
+                    text_iter = []
+                    for k in keys:
+                        key_iter.append(f"{k}_{i}")
+                        text_iter.append(text_dict[f"{k}_{j}"])
+                        key_iter.append(f"{k}_{j}")
+                        text_iter.append(text_dict[f"{k}_{i}"])
+                    # print(key_iter)
+                    transformed_texts_idx.append(current_text.replace_text_at_key(key_iter, text_iter))
+            transformed_texts.extend(transformed_texts_idx)
 
         return transformed_texts
 

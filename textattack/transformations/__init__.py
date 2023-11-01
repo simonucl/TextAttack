@@ -16,3 +16,4 @@ from .composite_transformation import CompositeTransformation
 from .word_deletion import WordDeletion
 from .word_innerswap_random import WordInnerSwapRandom
 from .sent_swap_order import InsturctionSwapOrder
+from .irrelevant_ood import InsturctionIrrelevant

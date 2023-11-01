@@ -72,6 +72,8 @@ class AttackedText:
         self.attack_attrs.setdefault("original_index_map", np.arange(self.num_words))
         # A list of all indices in *this* text that have been modified.
         self.attack_attrs.setdefault("modified_indices", set())
+        # A list of all keys that have been modified.
+        self.attack_attrs.setdefault("modified_keys", set())
 
     def __eq__(self, other: AttackedText) -> bool:
         """Compares two AttackedText instances.
@@ -383,6 +385,42 @@ class AttackedText:
         new_text = " ".join((text, word_at_index))
         return self.replace_word_at_index(index, new_text)
 
+    def replace_text_at_key(self, keys: Iterable[str], new_texts: Iterable[str]) -> AttackedText:
+        """Returns a new AttackedText object where the text at ``key`` is
+        replaced with a new text.
+        """
+        if len(keys) != len(new_texts):
+            raise ValueError(
+                f"Cannot replace {len(new_texts)} texts at {len(keys)} keys."
+            )
+        if not isinstance(keys, Iterable):
+            raise TypeError(
+                f"replace_text_at_key requires ``Iterable`` keys, got {type(keys)}"
+            )
+        if not isinstance(new_texts, Iterable):
+            raise TypeError(
+                f"replace_text_at_key requires ``Iterable`` new_texts, got {type(new_texts)}"
+            )
+        # raise error if any of the keys are in modified_keys
+        for key in keys:
+            if key in self.attack_attrs["modified_keys"]:
+                raise ValueError(f"Cannot assign text at key {key} since it has been modified")
+            
+        text_input = self._text_input.copy()
+        
+        for key, new_text in zip(keys, new_texts):
+            if not isinstance(new_text, str):
+                raise TypeError(
+                    f"replace_text_at_key requires ``str`` new_text, got {type(new_text)}"
+                )
+            if key not in text_input:
+                raise ValueError(f"Cannot assign text at key {key}")
+            text_input[key] = new_text
+
+        new_attack_attrs = self.attack_attrs.copy()
+        new_attack_attrs["modified_keys"] = self.attack_attrs["modified_keys"].union(set(keys))
+        return AttackedText(text_input, attack_attrs=new_attack_attrs)
+    
     def generate_new_attacked_text(self, new_words: Iterable[str]) -> AttackedText:
         """Returns a new AttackedText object and replaces old list of words
         with a new list of words, but preserves the punctuation and spacing of
