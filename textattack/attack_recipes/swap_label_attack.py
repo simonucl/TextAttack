@@ -50,7 +50,8 @@ class SwapLabel2023(AttackRecipe):
 
         constraints = [InstructionModification(['sentence', 'Example_', 'Premise', 'Hypothesis']), RepeatModification(), MaxWordsPerturbed(max_percent=1.0)]
         
-        constraints.append(UniformSwap(threshold=1))
+        if fix_dist:
+            constraints.append(UniformSwap(threshold=1))
 
         # Goal is untargeted classification
         #
