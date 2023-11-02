@@ -26,18 +26,13 @@ class UniformSwap(Constraint):
         self.threshold = threshold
 
     def _check_constraint(self, transformed_text, reference_text):
-        hyp = transformed_text.text_dict
-        label_count = defaultdict(int)
-        i = 0
-        while True:
-            if f"Label_{i}" in hyp:
-                label_count[hyp[f"Label_{i}"]] += 1
-                i += 1
-            else:
-                break
+        hyp = transformed_text.label_dist
+        ref = reference_text.label_dist
 
-        # the difference between each label count should be within the threshold
-        return max(label_count.values()) - min(label_count.values()) <= self.threshold
+        for k in hyp:
+            if abs(hyp[k] - ref[k]) > self.threshold:
+                return False
+        return True
     
     def extra_repr_keys(self):
         return ["threshold"] + super().extra_repr_keys()

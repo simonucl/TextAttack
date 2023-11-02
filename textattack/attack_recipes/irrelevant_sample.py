@@ -13,6 +13,8 @@ from textattack.constraints.pre_transformation import (
     StopwordModification,
 )
 from textattack.constraints.overlap.max_words_perturbed import MaxWordsPerturbed
+from textattack.constraints.overlap.max_keys_perturbed import MaxKeysPerturbed
+
 from textattack.constraints.pre_transformation.instruction_attack import InstructionModification
 
 from textattack.constraints.semantics.sentence_encoders import UniversalSentenceEncoder
@@ -30,7 +32,7 @@ from .attack_recipe import AttackRecipe
 class IrrelevantSampleAttack(AttackRecipe):
 
     @staticmethod
-    def build(model_wrapper, ood_dataset):
+    def build(model_wrapper, ood_dataset, max_keys_perturbed=None):
         #
         #  we propose five bug generation methods for TEXTBUGGER:
         #
@@ -44,6 +46,9 @@ class IrrelevantSampleAttack(AttackRecipe):
         # constraints = [InstructionModification(['inference', 'Example_'])]
         # Goal is untargeted classification
         #
+        if max_keys_perturbed:
+            constraints.append(MaxKeysPerturbed(max_keys_perturbed))
+            
         goal_function = UntargetedClassification(model_wrapper)
         #
         # Greedily swap words with "Word Importance Ranking".

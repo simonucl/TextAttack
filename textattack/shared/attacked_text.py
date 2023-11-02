@@ -16,6 +16,7 @@ import flair
 from flair.data import Sentence
 import numpy as np
 import torch
+from collections import Counter
 
 import textattack
 
@@ -59,6 +60,8 @@ class AttackedText:
         self._words_per_input = None
         self._pos_tags = None
         self._ner_tags = None
+        self._label_dist = None
+
         # Format text inputs.
         self._text_input = OrderedDict([(k, v) for k, v in self._text_input.items()])
         if attack_attrs is None:
@@ -588,6 +591,14 @@ class AttackedText:
             ]
         return self._words_per_input
 
+    @property
+    def label_dist(self) -> Dict[str, int]:
+        """Returns the label distribution of the text."""
+        if not self._label_dist:
+            labels = [v for k, v in self._text_input.items() if k.startswith("Label")]
+            self._label_dist = dict(Counter(labels))
+        return self._label_dist
+    
     @property
     def words(self) -> List[str]:
         if not self._words:
