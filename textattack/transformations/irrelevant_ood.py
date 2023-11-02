@@ -62,7 +62,7 @@ class InsturctionIrrelevant(Transformation):
         
         # combination of key_collections with modifying_key number of keys
         key_collections = list(permutations(key_collections, modifying_key))
-        print(key_collections)
+        # print(key_collections)
 
         for keys in key_collections:
             replacing_texts = []
