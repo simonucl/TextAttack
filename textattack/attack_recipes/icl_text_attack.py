@@ -78,7 +78,7 @@ class ICLTextAttack(AttackRecipe):
             ]
         )
 
-        constraints = [RepeatModification(), StopwordModification(), InstructionModification(), MaxWordsPerturbed(max_percent=0.1)]
+        constraints = [RepeatModification(), StopwordModification(), InstructionModification(columns_allowed=["Premise_", "Hypothesis_"]), MaxWordsPerturbed(max_percent=0.1)]
         # In our experiment, we first use the Universal Sentence
         # Encoder [7], a model trained on a number of natural language
         # prediction tasks that require modeling the meaning of word

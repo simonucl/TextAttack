@@ -16,12 +16,16 @@ class InstructionModification(PreTransformationConstraint):
     entailment.
     """
 
-    def __init__(self, columns_to_ignore=["sentence", "Label_"]):
+    def __init__(self, columns_to_ignore=["sentence", "Label_", "premise", "hypothesis"], columns_allowed=[]):
         self.columns_to_ignore = [c.lower() for c in columns_to_ignore]
+        self.columns_allowed = [c.lower() for c in columns_allowed]
 
     def is_columns_to_ignore(self, column_name):
         for column in self.columns_to_ignore:
             if column in column_name:
+                for allowed in self.columns_allowed:
+                    if allowed in column_name:
+                        return False
                 return True
         return False
     
