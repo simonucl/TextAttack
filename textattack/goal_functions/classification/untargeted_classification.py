@@ -37,7 +37,8 @@ class UntargetedClassification(ClassificationGoalFunction):
         # a float, we assume that this is a regression task.
         if (model_output.numel() == 1) and isinstance(self.ground_truth_output, float):
             return abs(model_output.item() - self.ground_truth_output)
-        elif model_output.argmax() == self.ground_truth_output:
-            return 1 - model_output[self.ground_truth_output]
+        # elif model_output.argmax() == self.ground_truth_output:
         else:
-            return model_output[model_output.argmax()]
+            return 1 - model_output[self.ground_truth_output]
+        # else:
+            # return model_output[model_output.argmax()]
