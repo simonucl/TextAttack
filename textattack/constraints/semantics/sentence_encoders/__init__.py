@@ -12,4 +12,5 @@ from .thought_vector import ThoughtVector
 from .universal_sentence_encoder import (
     UniversalSentenceEncoder,
     MultilingualUniversalSentenceEncoder,
+    IclUniversalSentenceEncoder
 )

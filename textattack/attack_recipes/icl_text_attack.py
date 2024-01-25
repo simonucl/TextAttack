@@ -15,7 +15,7 @@ from textattack.constraints.pre_transformation import (
 )
 from textattack.constraints.overlap.max_words_perturbed import MaxWordsPerturbed
 
-from textattack.constraints.semantics.sentence_encoders import UniversalSentenceEncoder
+from textattack.constraints.semantics.sentence_encoders import UniversalSentenceEncoder, IclUniversalSentenceEncoder
 from textattack.goal_functions import UntargetedClassification
 from textattack.search_methods import GreedyWordSwapWIR
 from textattack.transformations import (
@@ -88,12 +88,11 @@ class ICLTextAttack(AttackRecipe):
         # ... "Furthermore, the semantic similarity threshold \eps is set
         # as 0.8 to guarantee a good trade-off between quality and
         # strength of the generated adversarial text."
-        constraints.append(UniversalSentenceEncoder(
+        constraints.append(IclUniversalSentenceEncoder(
             threshold=0.8,
             metric="angular",
-            compare_against_original=False,
-            window_size=15,
-            skip_text_shorter_than_window=True,
+            compare_against_original=True,
+            skip_text_shorter_than_window=False,
             ))
         #
         # Goal is untargeted classification

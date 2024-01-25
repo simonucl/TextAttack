@@ -77,6 +77,7 @@ class AttackedText:
         self.attack_attrs.setdefault("modified_indices", set())
         # A list of all keys that have been modified.
         self.attack_attrs.setdefault("modified_keys", set())
+        self.attack_attrs.setdefault("modifable_keys", set())
 
     def __eq__(self, other: AttackedText) -> bool:
         """Compares two AttackedText instances.
@@ -630,6 +631,28 @@ class AttackedText:
             for i in self.attack_attrs["newly_modified_indices"]
         ]
 
+    @property
+    def modifable_keys(self) -> Set[str]:
+        """Returns a set of keys that can be modified."""
+        return self.attack_attrs["modifable_keys"]
+    
+    @modifable_keys.setter
+    def modifable_keys(self, modifable_keys: Set[str]):
+        """Sets the modifable keys to be the union of the current modifable keys
+        and the input modifable keys."""
+        self.attack_attrs["modifable_keys"] = modifable_keys
+        
+    @property
+    def instructions(self) -> List[str]:
+        """Returns a list of instructions that are in the modifable keys."""
+        # throw error if modifable_keys is empty
+        if not self.attack_attrs["modifable_keys"]:
+            raise ValueError(f"modifable_keys is empty")
+        instructions = []
+        for key in self.attack_attrs["modifable_keys"]:
+            instructions.append(self._text_input[key])
+        return instructions
+        
     def printable_text(self, key_color="bold", key_color_method=None) -> str:
         """Represents full text input. Adds field descriptions.
 
