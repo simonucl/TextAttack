@@ -647,6 +647,7 @@ class AttackedText:
         """Returns a list of instructions that are in the modifable keys."""
         # throw error if modifable_keys is empty
         if not self.attack_attrs["modifable_keys"]:
+            print(self._text_input.keys())
             raise ValueError(f"modifable_keys is empty")
         instructions = []
         for key in self.attack_attrs["modifable_keys"]:
