@@ -54,10 +54,8 @@ class IclUniversalSentenceEncoder(UniversalSentenceEncoder):
         if len(transformed_texts) == 0:
             return torch.tensor([])
         starting_text_instructions = starting_text.instructions
-        print("starting_text_instructions", starting_text_instructions)
         transformed_texts_instructions = [t.instructions for t in transformed_texts] # list of lists
-        print("transformed_texts_instructions", transformed_texts_instructions)
-        
+
         instructions = starting_text_instructions + [item for sublist in transformed_texts_instructions for item in sublist]
 
         embeddings = self.encode(instructions)
@@ -70,6 +68,7 @@ class IclUniversalSentenceEncoder(UniversalSentenceEncoder):
             len_instructions = len(transformed_texts_instructions[k])
             transformed_k_instructions = transformed_embeddings[k * len_instructions: (k + 1) * len_instructions] # shape: (len_instructions, 512)
             sim_score = self.sim_metric(starting_embeddings, transformed_k_instructions) # shape: (len_instructions, len(transformed_texts))
+            print("Sim score:", sim_score)
             min_scores[k] = torch.min(sim_score, dim=0).values
         print("Min scores:", min_scores)
 
