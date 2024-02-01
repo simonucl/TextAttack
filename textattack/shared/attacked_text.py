@@ -452,6 +452,8 @@ class AttackedText:
         new_attack_attrs["original_index_map"] = self.attack_attrs[
             "original_index_map"
         ].copy()
+        new_attack_attrs["modified_keys"] = self.attack_attrs["modified_keys"].copy()
+        new_attack_attrs["modifable_keys"] = self.attack_attrs["modifable_keys"].copy()
         new_i = 0
         # Create the new attacked text by swapping out words from the original
         # text with a sequence of 0+ words in the new text.
@@ -647,7 +649,6 @@ class AttackedText:
         """Returns a list of instructions that are in the modifable keys."""
         # throw error if modifable_keys is empty
         if not self.attack_attrs["modifable_keys"]:
-            print(self._text_input.keys())
             raise ValueError(f"modifable_keys is empty")
         instructions = []
         for key in self.attack_attrs["modifable_keys"]:
