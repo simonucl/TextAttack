@@ -68,8 +68,6 @@ class IclUniversalSentenceEncoder(UniversalSentenceEncoder):
             len_instructions = len(transformed_texts_instructions[k])
             transformed_k_instructions = transformed_embeddings[k * len_instructions: (k + 1) * len_instructions] # shape: (len_instructions, 512)
             sim_score = self.sim_metric(starting_embeddings, transformed_k_instructions) # shape: (len_instructions, len(transformed_texts))
-            print("Sim score:", sim_score)
             min_scores[k] = torch.min(sim_score, dim=0).values
-        print("Min scores:", min_scores)
 
         return torch.tensor(min_scores)
