@@ -89,8 +89,8 @@ class ICLTextAttack(AttackRecipe):
         # as 0.8 to guarantee a good trade-off between quality and
         # strength of the generated adversarial text."
         constraints.append(IclUniversalSentenceEncoder(
-            threshold=0.4,
-            metric="angular",
+            threshold=0.8,
+            metric="cosine",
             compare_against_original=True,
             skip_text_shorter_than_window=False,
             ))
