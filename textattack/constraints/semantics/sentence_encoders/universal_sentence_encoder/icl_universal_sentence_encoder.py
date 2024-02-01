@@ -61,8 +61,8 @@ class IclUniversalSentenceEncoder(UniversalSentenceEncoder):
         embeddings = self.encode(instructions)
         if not isinstance(embeddings, torch.Tensor):
             embeddings = torch.tensor(embeddings)
-        starting_embeddings = embeddings[: len(transformed_texts)]
-        transformed_embeddings = embeddings[len(transformed_texts) :]
+        starting_embeddings = embeddings[: len(starting_text_instructions)]
+        transformed_embeddings = embeddings[len(starting_text_instructions) :]
         min_scores = [1] * len(transformed_texts)
         for k in range(len(transformed_texts_instructions)):
             len_instructions = len(transformed_texts_instructions[k])
