@@ -42,16 +42,17 @@ class InstructionModification(PreTransformationConstraint):
         """
         idx = 0
         indices_to_modify = set()
-        modifable_keys = set()
+        modifable_keys = list()
         for column, words in zip(
             current_text.column_labels, current_text.words_per_input
         ):
             num_words = len(words)
             if not self.is_columns_to_ignore(column.lower()):
-                modifable_keys.add(column)
+                modifable_keys.append(column)
                 indices_to_modify |= set(range(idx, idx + num_words))
             idx += num_words
-        current_text.modifable_keys = modifable_keys
+
+        current_text.modifable_keys = list(set(modifable_keys))
 
         return indices_to_modify
 

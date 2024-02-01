@@ -77,7 +77,7 @@ class AttackedText:
         self.attack_attrs.setdefault("modified_indices", set())
         # A list of all keys that have been modified.
         self.attack_attrs.setdefault("modified_keys", set())
-        self.attack_attrs.setdefault("modifable_keys", set())
+        self.attack_attrs.setdefault("modifable_keys", list())
 
     def __eq__(self, other: AttackedText) -> bool:
         """Compares two AttackedText instances.
@@ -634,12 +634,12 @@ class AttackedText:
         ]
 
     @property
-    def modifable_keys(self) -> Set[str]:
+    def modifable_keys(self) -> List[str]:
         """Returns a set of keys that can be modified."""
         return self.attack_attrs["modifable_keys"]
     
     @modifable_keys.setter
-    def modifable_keys(self, modifable_keys: Set[str]):
+    def modifable_keys(self, modifable_keys: List[str]):
         """Sets the modifable keys to be the union of the current modifable keys
         and the input modifable keys."""
         self.attack_attrs["modifable_keys"] = modifable_keys
