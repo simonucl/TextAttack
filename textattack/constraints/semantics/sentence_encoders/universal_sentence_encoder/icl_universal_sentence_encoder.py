@@ -54,6 +54,7 @@ class IclUniversalSentenceEncoder(UniversalSentenceEncoder):
         if len(transformed_texts) == 0:
             return torch.tensor([])
         starting_text_instructions = starting_text.instructions
+        print("starting_text_instructions", starting_text_instructions)
         transformed_texts_instructions = [t.instructions for t in transformed_texts] # list of lists
         instructions = starting_text_instructions + [item for sublist in transformed_texts_instructions for item in sublist]
 
