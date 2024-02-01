@@ -56,6 +56,8 @@ class IclUniversalSentenceEncoder(UniversalSentenceEncoder):
         starting_text_instructions = starting_text.instructions
         print("starting_text_instructions", starting_text_instructions)
         transformed_texts_instructions = [t.instructions for t in transformed_texts] # list of lists
+        print("transformed_texts_instructions", transformed_texts_instructions)
+        
         instructions = starting_text_instructions + [item for sublist in transformed_texts_instructions for item in sublist]
 
         embeddings = self.encode(instructions)
