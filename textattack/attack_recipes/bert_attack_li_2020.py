@@ -15,6 +15,7 @@ from textattack.constraints.overlap import MaxWordsPerturbed
 from textattack.constraints.pre_transformation import (
     RepeatModification,
     StopwordModification,
+    InstructionModification,
 )
 from textattack.constraints.semantics.sentence_encoders import UniversalSentenceEncoder
 from textattack.goal_functions import UntargetedClassification
@@ -42,7 +43,7 @@ class BERTAttackLi2020(AttackRecipe):
         #
         # Don't modify the same word twice or stopwords.
         #
-        constraints = [RepeatModification(), StopwordModification()]
+        constraints = [RepeatModification(), StopwordModification(), InstructionModification(['Example_', 'Label_'])]
 
         # "We only take ε percent of the most important words since we tend to keep
         # perturbations minimum."
