@@ -51,7 +51,7 @@ class BERTAttackLi2020(AttackRecipe):
         # "Word percentage allowed to change is set to 0.4 for most data-sets, this
         # parameter is trivial since most attacks only need a few changes. This
         # epsilon is only used to avoid too much queries on those very hard samples."
-        constraints.append(MaxWordsPerturbed(max_percent=0.4))
+        constraints.append(MaxWordsPerturbed(max_percent=0.1))
 
         # "As used in TextFooler (Jin et al., 2019), we also use Universal Sentence
         # Encoder (Cer et al., 2018) to measure the semantic consistency between the
@@ -71,7 +71,7 @@ class BERTAttackLi2020(AttackRecipe):
         # data, the TextAttack implementation uses a fixed threshold - determined to
         # be 0.2 to be most fair.
         use_constraint = UniversalSentenceEncoder(
-            threshold=0.2,
+            threshold=0.8,
             metric="cosine",
             compare_against_original=True,
             window_size=None,
