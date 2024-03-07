@@ -13,6 +13,7 @@ from transformers import AutoModelForMaskedLM, AutoTokenizer
 from textattack.shared import utils
 
 from .word_swap import WordSwap
+from tqdm import tqdm
 
 
 class WordSwapMaskedLM(WordSwap):
@@ -230,7 +231,13 @@ class WordSwapMaskedLM(WordSwap):
             cross_entropy_loss = torch.nn.CrossEntropyLoss(reduction="none")
             target_ids_pos_tensor = torch.tensor(target_ids_pos)
             word_tensor = torch.zeros(len(target_ids_pos), dtype=torch.long)
-            for bpe_tokens in products:
+            
+            max_iter = self.max_candidates * len(target_ids_pos)
+
+            for i, bpe_tokens in enumerate(products):
+                if i >= max_iter:
+                    break
+                
                 for i in range(len(bpe_tokens)):
                     word_tensor[i] = bpe_tokens[i]
 
@@ -252,10 +259,12 @@ class WordSwapMaskedLM(WordSwap):
     def _get_transformations(self, current_text, indices_to_modify):
         indices_to_modify = list(indices_to_modify)
         if self.method == "bert-attack":
+
             current_inputs = self._encode_text(current_text.text)
             with torch.no_grad():
                 pred_probs = self._language_model(**current_inputs)[0][0]
             top_probs, top_ids = torch.topk(pred_probs, self.max_candidates)
+
             id_preds = top_ids.cpu()
             masked_lm_logits = pred_probs.cpu()
 
